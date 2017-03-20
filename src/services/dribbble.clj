@@ -1,4 +1,4 @@
-(ns services.dribble
+(ns services.dribbble
   (:require [clj-http.client :as http]
             [taoensso.timbre :as timbre :refer [info warn error]]))
 
@@ -11,7 +11,9 @@
   ([endpoint page]
     (let [url (str "https://api.dribbble.com/v1" endpoint)]
       (future
-        (Thread/sleep 3000)
+        ; Delay can be smaller. I've picked 2000 for case you'll run it as soon as you receive email (cause I've tested
+        ; it recently with small intervals and use a lot of API calls.
+        (Thread/sleep 2000)
         (:body (http/get url {:query-params {"page" page "per_page" 100 "access_token" access-token}
                               :accept :json
                               :as :json
